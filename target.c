@@ -7,6 +7,8 @@
  * under the terms of the GNU General Public License (GPL).
  * See the accompanying file "COPYING" for more details.
  */
+#include <config.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -281,9 +283,15 @@ static const struct {
     const char *prefix;
     adapter_t *(*func)(const char *port, int baud);
 } serial_tab[] = {
+#ifdef USE_STK500V2
     { "stk500",     adapter_open_stk500v2       },  /* Default */
+#endif
+#ifdef USE_AN1388_UART
     { "an1388",     adapter_open_an1388_uart    },
+#endif
+#ifdef USE_BITBANG_UART
     { "ascii",      adapter_open_bitbang        },
+#endif
     { 0 },
 };
 
@@ -313,19 +321,27 @@ void mdelay (unsigned msec)
  */
 static adapter_t *open_usb_adapter()
 {
-    adapter_t *a;
+    adapter_t *a = NULL;
 
+#ifdef USE_PICKIT
     a = adapter_open_pickit();
+#endif
 #ifdef USE_MPSSE
     if (! a)
         a = adapter_open_mpsse();
 #endif
+#ifdef USE_HIDBOOT
     if (! a)
         a = adapter_open_hidboot();
+#endif
+#ifdef USE_AN1388
     if (! a)
         a = adapter_open_an1388();
+#endif
+#ifdef USE_UHB
     if (! a)
         a = adapter_open_uhb();
+#endif
     return a;
 }
 

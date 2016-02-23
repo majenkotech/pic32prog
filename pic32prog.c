@@ -7,6 +7,8 @@
  * under the terms of the GNU General Public License (GPL).
  * See the accompanying file "COPYING" for more details.
  */
+#include <config.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -743,6 +745,7 @@ int main (int argc, char **argv)
         case 'e':
             ++erase_only;
             continue;
+#ifdef USING_UART
         case 'd':
             target_port = optarg;
             continue;
@@ -764,6 +767,7 @@ int main (int argc, char **argv)
                 return 0;
             }
             continue;
+#endif
         case 'h':
             break;
         case 'V':
@@ -798,9 +802,11 @@ usage:
         printf ("       file.bin            Code file in binary format\n");
         printf ("       -v                  Verify only\n");
         printf ("       -r                  Read mode\n");
+#ifdef USING_UART
         printf ("       -d device           Use serial device\n");
         printf ("       -b baudrate         Serial speed, default 115200\n");
         printf ("       -B alt_baud         Request an alternative baud rate\n");
+#endif
         printf ("       -e                  Erase chip\n");
         printf ("       -p                  Leave board powered on\n");
         printf ("       -D                  Debug mode\n");
