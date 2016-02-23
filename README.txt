@@ -10,6 +10,20 @@ microcontrollers.  Supported adapters and bootloaders:
  * AN1388 HID bootloader
  * Legacy FS_USB HID bootloader
 
+=== Building ===
+
+First you need to make the configuration files:
+
+    % autoreconf -fi
+
+Then configure, specifying the adapters you want to include:
+
+    % ./configure --enable-an1388 --enable-an1388-uart --enable-bitbang --enable-hidboot \
+        --enable-mpsse --enable-pickit2 --enable-stk500v2 --enable-uhb
+
+Then you should be able to "make" the program:
+
+    % make
 
 === Usage ===
 
