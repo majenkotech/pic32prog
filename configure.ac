@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([pic32prog], [2.0], [serge@vak.ru])
 AC_CONFIG_SRCDIR([pickit2.h])
 AC_CONFIG_HEADERS([config.h])
