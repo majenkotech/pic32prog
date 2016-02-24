@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 
+#include <endian.h>
+
 #include "adapter.h"
 #include "pic32.h"
 #include "serial.h"
@@ -526,10 +528,11 @@ static void stk_program_block (adapter_t *adapter,
     unsigned i;
 
     for (i=0; i<PAGE_NBYTES; ++i) {
-        write_byte (a, addr + i*4,     data[i]);
-        write_byte (a, addr + i*4 + 1, data[i] >> 8);
-        write_byte (a, addr + i*4 + 2, data[i] >> 16);
-        write_byte (a, addr + i*4 + 3, data[i] >> 24);
+        unsigned int hdata = le32toh(data[i]);
+        write_byte (a, addr + i*4,     hdata);
+        write_byte (a, addr + i*4 + 1, hdata >> 8);
+        write_byte (a, addr + i*4 + 2, hdata >> 16);
+        write_byte (a, addr + i*4 + 3, hdata >> 24);
     }
     flush_write_buffer (a);
 }
