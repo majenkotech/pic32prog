@@ -166,7 +166,6 @@ AC_DEFUN([AC_CONFIG_HOST], [
     case $host_os in
       darwin* )
             LIBS="${LIBS} -framework IOKit -framework CoreFoundation"
-            hid_src=hidapi/hid-mac.c
             univ_archs=`grep '^universal_archs' /opt/local/etc/macports/macports.conf`
             case "${univ_archs}" in
                 *i386*)
@@ -188,10 +187,8 @@ AC_DEFUN([AC_CONFIG_HOST], [
             fi
             ;;
       linux*)
-            LIBS="${LIBS} -Wl,-Bstatic -lusb-1.0 -Wl,-Bdynamic -lpthread -ludev"
-            hid_src=hidapi/hid-libusb.c
             if test ${need_usb1} -eq 1; then
-                LIBS+=" -lusb-1.0"
+                LIBS+=" -lusb-1.0 -lpthread -ludev"
                 HIDAPI_OBJECTS='hid-libusb.$(OBJEXT)'
             fi
             if test ${need_usb0} -eq 1; then
